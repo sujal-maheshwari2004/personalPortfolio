@@ -57,7 +57,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          I build modern web applications.
+          Full Stack AI Developer
         </motion.h2>
 
         <motion.p
@@ -66,7 +66,7 @@ const Hero = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
         >
-          I'm a frontend developer who loves turning ideas into responsive, accessible, and performant digital experiences.
+          I'm a passionate full stack developer with a strong focus on AI. I build intelligent and scalable web applications using React, FastAPI, MongoDB, PostgreSQL, and modern DevOps tools. My work blends cutting-edge machine learning with solid engineering practices to bring ideas to life.
         </motion.p>
 
         <motion.div
@@ -82,7 +82,7 @@ const Hero = () => {
             <Mail size={18} /> Contact Me
           </a>
           <a
-            href="../assets/SujalMaheshwari2025.pdf" // Replace with actual path
+            href="https://drive.google.com/uc?export=download&id=1sPE1ZCq3hZjEAtFX-Yer-frltM3hFJ2Q"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-yellow-400 dark:border-yellow-400 rounded-full hover:bg-blue-100 dark:hover:bg-yellow-900 transition"
