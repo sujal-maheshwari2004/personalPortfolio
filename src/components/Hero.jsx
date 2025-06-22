@@ -82,7 +82,7 @@ const Hero = () => {
             <Mail size={18} /> Contact Me
           </a>
           <a
-            href="/resume.pdf" // Replace with actual path
+            href="../assets/SujalMaheshwari2025.pdf" // Replace with actual path
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-yellow-400 dark:border-yellow-400 rounded-full hover:bg-blue-100 dark:hover:bg-yellow-900 transition"
