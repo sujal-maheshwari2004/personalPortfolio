@@ -1,12 +1,60 @@
-# React + Vite
+# 🚀 Sujal Maheshwari – Developer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my personal **developer portfolio** built with **React** and **Tailwind CSS**, showcasing my skills, experience, and projects in a visually engaging and responsive one-page website.
 
-Currently, two official plugins are available:
+## 🧰 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* ⚛️ React
+* 🎨 Tailwind CSS
+* 🎞️ Framer Motion (for animations)
+* 🌙 Dark Mode Support
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+.
+├── public/
+├── src/
+│   ├── components/         # Reusable UI sections (Hero, About, Projects, Experience, Contact)
+│   ├── assets/             # Images and static files
+│   ├── data/               # JSON/JS files for projects and experience timelines
+│   └── App.jsx             # Main layout
+├── tailwind.config.js
+├── package.json
+└── README.md
+```
+
+## 📸 Features
+
+* 🎯 **Hero Section**: Animated introduction with call-to-action
+* 👤 **About Me**: Brief background with auto-scrolling skills carousel
+* 💼 **Projects**: Interactive carousel of featured GitHub projects
+* 🕓 **Experience Timeline**: Clickable timeline with detailed cards
+* 📬 **Contact**: Quick-access buttons for Email, LinkedIn, and Phone
+* 🌙 **Dark Mode**: Seamless toggle between light and dark themes
+* 📱 **Responsive**: Fully mobile-friendly
+
+## 🔗 Live Preview
+
+> Add live link here if deployed (e.g., Netlify, Vercel)
+
+## 📌 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+## ✨ Customization Tips
+
+* Update your projects in `src/components/ProjectCards.js`
+* Modify experience entries in `src/components/experiences.js`
+* Tailwind classes can be changed to suit your color/font preferences
+
+## 📄 License
+
+This project is open-source and free to use under the [MIT License](LICENSE).
+
