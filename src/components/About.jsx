@@ -25,13 +25,13 @@ const AnimatedText = ({ text, className }) => (
   </motion.div>
 );
 
-const aiSkills = ['Python', 'PyTorch', 'Scikit-learn'];
-const webSkills = ['JavaScript', 'React', 'FastAPI', 'Flask', 'Streamlit', 'Node.js'];
+const aiSkills = ['Python', 'PyTorch', 'Scikit-learn', 'Langchain', 'Langgraph'];
+const webSkills = ['JavaScript', 'React', 'FastAPI', 'Flask', 'Streamlit'];
 
 const allSkills = [
   'Python', 'C/C++', 'JavaScript', 'React', 'FastAPI',
   'Flask', 'Streamlit', 'MongoDB', 'PostgreSQL', 'Azure',
-  'PyTorch', 'Scikit-learn', 'SQL', 'Node.js', 'Git'
+  'PyTorch', 'Scikit-learn', 'SQL', 'Git', 'Langchain', 'Langgraph',
 ];
 
 const getSkillMeta = (skill) => {
