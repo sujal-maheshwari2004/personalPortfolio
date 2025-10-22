@@ -5,7 +5,7 @@ export const experiences = [
     title: 'AI Data Scientist Intern',
     company: 'Basal AI',
     location: 'Bengaluru, Karnataka, India (Remote)',
-    duration: 'May 2025 – Present',
+    duration: 'May 2025 – August 2025',
     description: [
       'Built a data pipeline on Azure Compute to periodically extract Shopify data using the Admin API and perform web scraping for historical records.',
       'Developed an end-to-end AI tool powered by a fine-tuned GPT-4.1 model trained on organization-specific data—automatically generating professionally written articles from short contextual snippets.',
