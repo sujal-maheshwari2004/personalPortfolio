@@ -1,96 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from "react";
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const navLinks = [
+  { name: "Home", href: "#home" },
+  { name: "Experience", href: "#experience" },
+  { name: "Projects", href: "#projects" },
+  { name: "Stack", href: "#stack" },
+  { name: "Contact", href: "#contact" },
+];
+
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [scrollPercent, setScrollPercent] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [open, setOpen] = useState(false);
 
-  // Update scroll status and percent
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      const scrolled = (scrollTop / docHeight) * 100;
-
-      setScrolled(scrollTop > 50);
-      setScrollPercent(scrolled);
+    const onScroll = () => {
+      const top = window.scrollY;
+      const height = document.body.scrollHeight - window.innerHeight;
+      setScrolled(top > 40);
+      setProgress(height > 0 ? (top / height) * 100 : 0);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
-
   return (
-    <header className="fixed top-0 w-full z-50">
-      {/* Scroll Progress Bar */}
-      <div className="h-1 bg-blue-600" style={{ width: `${scrollPercent}%` }} />
+    <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="nav-progress" style={{ width: `${progress}%` }} />
+      <div className="nav-inner">
+        <a href="#home" className="nav-logo">SM</a>
 
-      {/* Navbar */}
-      <nav>
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4">
-          {/* Logo */}
-          <div className="text-2xl font-bold text-gray-800">Sujal</div>
+        <nav className="nav-links">
+          {navLinks.map((l) => (
+            <a key={l.name} href={l.href} className="nav-link">
+              {l.name}
+            </a>
+          ))}
+        </nav>
 
-          {/* Desktop Links */}
-          <ul className="hidden md:flex gap-8">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <button className="nav-burger" onClick={() => setOpen(!open)} aria-label="menu">
+          <span className={open ? "line open-1" : "line"} />
+          <span className={open ? "line open-2" : "line"} />
+        </button>
+      </div>
 
-          {/* Hamburger */}
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Animated Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="md:hidden bg-white/90 backdrop-blur-lg px-4 pb-4 pt-2 shadow-md"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ul className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-800 font-medium hover:text-blue-600"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {open && (
+        <nav className="nav-mobile">
+          {navLinks.map((l) => (
+            <a key={l.name} href={l.href} className="nav-mobile-link" onClick={() => setOpen(false)}>
+              {l.name}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
   );
-};
-
-export default Navbar;
+}
