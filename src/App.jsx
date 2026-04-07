@@ -1,19 +1,25 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
-import Experience from './components/Experience';
-import Contact from './components/Contact'; 
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Experience from "./components/Experience";
+import Projects from "./components/Projects";
+import Stack from "./components/Stack";
+import Contact from "./components/Contact";
+import "./index.css";
 
 function App() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Experience /> 
-      <Contact /> 
+      <main>
+        <Hero />
+        <Experience />
+        <Projects />
+        <Stack />
+        <Contact />
+      </main>
+      <footer className="footer">
+        <p>Sujal Maheshwari · {new Date().getFullYear()}</p>
+      </footer>
     </>
   );
 }
