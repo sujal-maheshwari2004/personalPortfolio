@@ -1,106 +1,80 @@
-import React, { useRef, useState } from 'react';
-import { motion, useMotionValue, useTransform, useAnimationFrame } from 'framer-motion';
-import { projectCards } from './ProjectCards';
+import { projects } from "../data";
 
-const ProjectCard = ({ project, offsetX }) => {
-  const cardRef = useRef(null);
-  const x = useMotionValue(offsetX);
-
-  // Bigger scale difference due to larger card size
-  const scale = useTransform(x, [-800, 0, 800], [0.4, 1, 0.4]);
-  const opacity = useTransform(x, [-800, 0, 800], [0.1, 1, 0.1]);
-
-  useAnimationFrame(() => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const center = window.innerWidth / 2;
-    x.set(rect.left - center + rect.width / 2);
-  });
-
-  return (
-    <motion.div
-      ref={cardRef}
-      style={{ scale, opacity }}
-      className="min-w-[320px] max-w-[320px] mx-6 bg-[#111827] rounded-2xl overflow-hidden backdrop-blur-md text-white border border-white/10 hover:scale-[1.03] transition-transform duration-200 shadow-lg"
-    >
-      <div className="h-32 bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
-        <img src="https://cdn-icons-png.flaticon.com/512/10437/10437090.png" alt="project" className="h-10" />
-      </div>
-      <div className="p-5 flex flex-col justify-between h-[280px]">
-        <div>
-          <h3 className="text-xl font-semibold mb-2 text-center">{project.title}</h3>
-          <p className="text-sm text-gray-300 text-center">{project.description}</p>
-        </div>
-        <div className="mt-4 flex flex-wrap justify-center gap-2">
-          {project.tags.map((tag, i) => (
-            <span key={i} className="px-2 py-1 text-xs bg-white/10 border border-white/20 rounded">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <div className="mt-4 text-center">
-          <a
-            href={project.source}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-blue-400 hover:underline"
-          >
-            GitHub →
-          </a>
-        </div>
-      </div>
-    </motion.div>
-  );
+const accentMap = {
+  green:  { tag: "tag-green",  lbl: "lbl-green"  },
+  violet: { tag: "tag-violet", lbl: "lbl-violet"  },
+  amber:  { tag: "tag-amber",  lbl: "lbl-amber"   },
+  blue:   { tag: "tag-blue",   lbl: "lbl-blue"    },
+  indigo: { tag: "tag-indigo", lbl: "lbl-indigo"  },
 };
 
-const Projects = () => {
-  const [isHovered, setIsHovered] = useState(false);
+function ProjectCard({ project, wide }) {
+  const ac = accentMap[project.accent] || accentMap.blue;
+  return (
+    <div className={`proj-card ${wide ? "proj-wide" : ""} accent-${project.accent}`}>
+      <div className={`proj-lbl ${ac.lbl}`}>{project.category}</div>
+      <h3 className="proj-name">{project.name}</h3>
+      <p className="proj-desc">{project.description}</p>
+
+      {project.models && (
+        <div className="proj-models">
+          {project.models.map((m) => (
+            <div key={m.name} className="proj-model-row">
+              <div>
+                <span className="proj-model-name">{m.name}</span>
+                <span className="proj-model-detail">{m.detail}</span>
+              </div>
+              <span className={m.live ? "badge-live" : "badge-soon"}>
+                {m.live ? "live" : "soon"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {project.hf && (
+        <div className="proj-hf-row">
+          {project.hf.map((h) => (
+            <a key={h.label} href={h.url} className="hf-badge" target="_blank" rel="noreferrer">
+              🤗 {h.label}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <div className="proj-tags">
+        {project.tags.map((t) => (
+          <span key={t} className={`tag ${ac.tag}`}>{t}</span>
+        ))}
+      </div>
+
+      <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
+        GitHub ↗
+      </a>
+    </div>
+  );
+}
+
+export default function Projects() {
+  // Layout: DriftGuard (wide), Librarian (wide) in first row
+  // Bot Street, ToolStore, PeakPulse, NewsCheck in second
+  const [driftguard, librarian, botstreet, ...rest] = projects;
 
   return (
-    <section
-      id="projects"
-      className="min-h-screen px-4 py-20 bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden"
-    >
-      <div className="max-w-6xl mx-auto text-center">
-        <p className="text-sm text-blue-500 dark:text-yellow-500 uppercase tracking-wider mb-2">
-          Some of my work
-        </p>
-        <motion.h2
-          className="text-4xl md:text-5xl font-bold text-blue-600 dark:text-yellow-400 mb-10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          Projects
-        </motion.h2>
+    <section id="projects" className="section section-dark">
+      <div className="section-inner">
+        <p className="section-eyebrow">What I build</p>
+        <h2 className="section-title">Projects</h2>
 
-        <div
-          className="relative overflow-hidden mt-8 cursor-grab active:cursor-grabbing"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <motion.div
-            className="flex w-max"
-            animate={!isHovered ? { x: '-50%' } : false}
-            transition={!isHovered ? {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 90,
-              ease: 'linear',
-            } : {}}
-            drag="x"
-            dragConstraints={{ left: -1000, right: 0 }}
-            dragElastic={0.04}
-          >
-            {[...projectCards, ...projectCards].map((project, idx) => (
-              <ProjectCard key={idx} project={project} offsetX={0} />
-            ))}
-          </motion.div>
+        <div className="proj-bento">
+          <ProjectCard project={driftguard} wide />
+          <ProjectCard project={librarian} wide />
+          <ProjectCard project={botstreet} />
+          {rest.map((p) => (
+            <ProjectCard key={p.name} project={p} />
+          ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Projects;
+}
