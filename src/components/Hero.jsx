@@ -1,98 +1,71 @@
-import React from 'react';
-import { ArrowDownToLine, Mail } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from "react";
+import { links, stats } from "../data";
 
-// Helper: Split string into motion spans
-const AnimatedText = ({ text, className }) => {
+export default function Hero() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setTimeout(() => setMounted(true), 50); }, []);
+
   return (
-    <motion.div
-      className={`inline-block ${className}`}
-      initial="hidden"
-      animate="visible"
-      variants={{
-        visible: { transition: { staggerChildren: 0.04 } },
-      }}
-    >
-      {text.split('').map((char, index) => (
-        <motion.span
-          key={index}
-          className="inline-block"
-          variants={{
-            hidden: { opacity: 0, y: `0.25em` },
-            visible: { opacity: 1, y: 0 },
-          }}
-          transition={{ duration: 0.4 }}
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </motion.span>
-      ))}
-    </motion.div>
-  );
-};
+    <section id="home" className="hero-section">
+      <div className="hero-orb orb-1" />
+      <div className="hero-orb orb-2" />
+      <div className="hero-grid" />
 
-const Hero = () => {
-  return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-black via-slate-900 to-gray-900"
-    >
-      <div className="max-w-4xl mx-auto text-center">
-        <AnimatedText
-          text="Hi, my name is"
-          className="text-lg font-medium text-blue-600 dark:text-yellow-400"
-        />
+      <div className={`hero-inner ${mounted ? "mounted" : ""}`}>
+        <div className="hero-badge">
+          <span className="badge-dot" />
+          Open to opportunities · 2026
+        </div>
 
-        <motion.h1
-          className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mt-2"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          Sujal Maheshwari
-        </motion.h1>
+        <h1 className="hero-name">
+          <span className="hero-name-first">Sujal</span>
+          <br />
+          <span className="hero-name-last">Maheshwari</span>
+        </h1>
 
-        <motion.h2
-          className="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 mt-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-        >
-          Full Stack AI Developer
-        </motion.h2>
+        <p className="hero-role">Full Stack AI Developer</p>
 
-        <motion.p
-          className="text-md md:text-lg text-gray-600 dark:text-gray-400 mt-6 max-w-xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-        >
-          I'm a passionate full stack developer with a strong focus on AI. I build intelligent and scalable web applications using React, FastAPI, MongoDB, PostgreSQL, and modern DevOps tools. My work blends cutting-edge machine learning with solid engineering practices to bring ideas to life.
-        </motion.p>
+        <p className="hero-sub">
+          Final-year CS (AI &amp; DS) student. I build production-grade LLM
+          systems, train language models from scratch, and ship agentic
+          infrastructure that solves real engineering problems.
+        </p>
 
-        <motion.div
-          className="flex flex-col sm:flex-row justify-center gap-4 mt-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.6 }}
-        >
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
-          >
-            <Mail size={18} /> Contact Me
+        <div className="hero-btns">
+          <a href={links.portfolio} className="btn-primary" target="_blank" rel="noreferrer">
+            ↗ Portfolio
           </a>
-          <a
-            href="https://drive.google.com/uc?export=download&id=1sPE1ZCq3hZjEAtFX-Yer-frltM3hFJ2Q"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-yellow-400 dark:border-yellow-400 rounded-full hover:bg-blue-100 dark:hover:bg-yellow-900 transition"
-          >
-            <ArrowDownToLine size={18} /> Resume
+          <a href={links.resume} className="btn-ghost" target="_blank" rel="noreferrer">
+            Resume
           </a>
-        </motion.div>
+          <a href={links.github} className="btn-ghost" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a href={links.linkedin} className="btn-ghost" target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+          <a href={links.huggingface} className="btn-ghost" target="_blank" rel="noreferrer">
+            HuggingFace
+          </a>
+        </div>
+
+        <div className="hero-stats">
+          {stats.map((s, i) => (
+            <div className="hero-stat" key={i} style={{ animationDelay: `${0.6 + i * 0.1}s` }}>
+              <div className="stat-num">
+                {s.value}<span className="stat-unit">{s.unit}</span>
+              </div>
+              <div className="stat-label">{s.label}</div>
+              <div className="stat-sub">{s.sub}</div>
+            </div>
+          ))}
+        </div>
       </div>
+
+      <a href="#experience" className="scroll-hint">
+        <span>scroll</span>
+        <div className="scroll-line" />
+      </a>
     </section>
   );
-};
-
-export default Hero;
+}
