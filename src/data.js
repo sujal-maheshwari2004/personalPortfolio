@@ -64,6 +64,7 @@ export const projects = [
       "Semantic mistake-memory system for AI agents. Stores causal chains (action → feedback → outcome) in a knowledge graph and warns agents before they repeat past failures — via semantic similarity, not exact matching. Dual interface: MCP server + in-process guard API for LangGraph.",
     tags: ["MCP", "FastMCP", "NetworkX", "sentence-transformers", "spaCy", "pytest"],
     github: "https://github.com/sujal-maheshwari2004/DriftGuard",
+    pypi: "https://pypi.org/project/driftguard-ai/",
   },
   {
     name: "Librarian Series",
@@ -101,6 +102,8 @@ export const projects = [
       "Automatic MCP server builder. Plain-English tool description → semantic search + cross-encoder reranking → clone repo → AST security scan → single runnable MCP server. 100% build accuracy across 32,767 evaluated subsets.",
     tags: ["MCP", "ChromaDB", "sentence-transformers", "AST"],
     github: "https://github.com/sujal-maheshwari2004",
+    pypi: "https://pypi.org/project/toolstorepy/",
+    docs: "https://tool-store-py-docs.vercel.app/",
   },
   {
     name: "PeakPulse",
