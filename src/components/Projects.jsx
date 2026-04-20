@@ -48,16 +48,26 @@ function ProjectCard({ project, wide }) {
         ))}
       </div>
 
-      <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
-        GitHub ↗
-      </a>
+      <div className="proj-links">
+        <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
+          GitHub ↗
+        </a>
+        {project.pypi && (
+          <a href={project.pypi} className="proj-link" target="_blank" rel="noreferrer">
+            PyPI ↗
+          </a>
+        )}
+        {project.docs && (
+          <a href={project.docs} className="proj-link" target="_blank" rel="noreferrer">
+            Docs ↗
+          </a>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function Projects() {
-  // Layout: DriftGuard (wide), Librarian (wide) in first row
-  // Bot Street, ToolStore, PeakPulse, NewsCheck in second
   const [driftguard, librarian, botstreet, ...rest] = projects;
 
   return (
