@@ -1,5 +1,20 @@
 export const experience = [
   {
+    company: "BeastLife",
+    role: "Artificial Intelligence Intern",
+    type: "Internship",
+    location: "Gurugram, Haryana · On-site",
+    period: "Apr 2026 – Present",
+    bullets: [
+      "Implementing AI-driven automation across multiple departments within a fast-growing D2C brand.",
+      "Designing and deploying workflow automations to improve operational efficiency and scalability.",
+      "Integrating AI tools to streamline marketing, operations, and internal processes.",
+      "Identifying opportunities where AI can enhance decision-making and productivity.",
+      "Contributing to experimentation and deployment of practical AI solutions in real business environments.",
+    ],
+    tags: ["AI Automation", "D2C", "Workflow Automation", "LLMs"],
+  },
+  {
     company: "STARTHACK.IO",
     role: "AI Architect",
     type: "Freelance",
