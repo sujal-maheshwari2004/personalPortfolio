@@ -641,4 +641,10 @@ img { display: block; max-width: 100%; }
   font-family: 'DM Mono', monospace;
   border-top: 1px solid var(--border);
 }
+
+.proj-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
 @media (prefers-color-scheme: dark) { .footer { border-color: var(--border-dark); } }
