@@ -56,6 +56,7 @@ export const experience = [
 ];
 
 export const projects = [
+  // ── Tier 1: PyPI packages with live docs ──────────────────
   {
     name: "DriftGuard",
     category: "Agentic Infra · Memory Layer",
@@ -79,6 +80,19 @@ export const projects = [
     docs: "https://sentinel-docs-jet.vercel.app/",
   },
   {
+    name: "ToolStore",
+    category: "LLM Infra · MCP Builder",
+    accent: "indigo",
+    description:
+      "Automatic MCP server builder. Plain-English tool description → semantic search + cross-encoder reranking → clone repo → AST security scan → single runnable MCP server. 100% build accuracy across 32,767 evaluated subsets.",
+    tags: ["MCP", "ChromaDB", "sentence-transformers", "AST"],
+    github: "https://github.com/sujal-maheshwari2004",
+    pypi: "https://pypi.org/project/toolstorepy/",
+    docs: "https://tool-store-py-docs.vercel.app/",
+  },
+
+  // ── Tier 2: Research depth ────────────────────────────────
+  {
     name: "Librarian Series",
     category: "Personal Research · LLM From Scratch",
     accent: "violet",
@@ -97,6 +111,8 @@ export const projects = [
       { name: "librarian-base-390m", detail: "~390M params", live: false },
     ],
   },
+
+  // ── Tier 3: High technical depth, not deployed ────────────
   {
     name: "Bot Street",
     category: "Simulation · HFT Environment",
@@ -106,21 +122,12 @@ export const projects = [
     tags: ["Kafka", "FastAPI", "MCP", "Rich", "Docker"],
     github: "https://github.com/sujal-maheshwari2004",
   },
-  {
-    name: "ToolStore",
-    category: "Project · LLM Infra",
-    accent: "indigo",
-    description:
-      "Automatic MCP server builder. Plain-English tool description → semantic search + cross-encoder reranking → clone repo → AST security scan → single runnable MCP server. 100% build accuracy across 32,767 evaluated subsets.",
-    tags: ["MCP", "ChromaDB", "sentence-transformers", "AST"],
-    github: "https://github.com/sujal-maheshwari2004",
-    pypi: "https://pypi.org/project/toolstorepy/",
-    docs: "https://tool-store-py-docs.vercel.app/",
-  },
+
+  // ── Tier 4: Deployed products ─────────────────────────────
   {
     name: "PeakPulse",
     category: "Project · AI Product",
-    accent: "violet",
+    accent: "green",
     description:
       "Customer support intelligence for e-commerce. 3-node LangGraph pipeline — classify → route → resolve — with deterministic escalation and rule-based fallback at <5ms, $0 cost. Bulk endpoint handles 50 concurrent queries via asyncio.gather.",
     tags: ["LangGraph", "FastAPI", "GPT-4o-mini", "React", "Zustand"],
@@ -129,7 +136,7 @@ export const projects = [
   {
     name: "NewsCheck",
     category: "Project · Pipelines",
-    accent: "amber",
+    accent: "indigo",
     description:
       "YouTube → yt-dlp audio → Whisper transcription → GPT-4 summary in 5 structured bullets. Magic-link JWT auth, per-user rate limiting, deployed on Azure VM behind FastAPI.",
     tags: ["Whisper", "FastAPI", "Docker", "Azure VM"],
