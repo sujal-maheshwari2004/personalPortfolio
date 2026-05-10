@@ -8,10 +8,10 @@ const accentMap = {
   indigo: { tag: "tag-indigo", lbl: "lbl-indigo"  },
 };
 
-function ProjectCard({ project, wide, full }) {
+function ProjectCard({ project, wide, full, narrow }) {
   const ac = accentMap[project.accent] || accentMap.blue;
   return (
-    <div className={`proj-card ${wide ? "proj-wide" : ""} ${full ? "proj-full" : ""} accent-${project.accent}`}>
+    <div className={`proj-card ${wide ? "proj-wide" : ""} ${full ? "proj-full" : ""} ${narrow ? "proj-narrow" : ""} accent-${project.accent}`}>
       <div className={`proj-lbl ${ac.lbl}`}>{project.category}</div>
       <h3 className="proj-name">{project.name}</h3>
       <p className="proj-desc">{project.description}</p>
@@ -68,7 +68,7 @@ function ProjectCard({ project, wide, full }) {
 }
 
 export default function Projects() {
-  const [driftguard, sentinel, librarian, botstreet, toolstore, peakpulse, newscheck] = projects;
+  const [driftguard, sentinel, toolstore, librarian, botstreet, peakpulse, newscheck] = projects;
 
   return (
     <section id="projects" className="section section-dark">
@@ -77,20 +77,18 @@ export default function Projects() {
         <h2 className="section-title">Projects</h2>
 
         <div className="proj-bento">
-          {/* Row 1 — PyPI packages with live docs: equal priority, three wide cards */}
-          <ProjectCard project={driftguard} wide />
-          <ProjectCard project={sentinel} wide />
-          <ProjectCard project={toolstore} wide />
+          {/* Row 1 — DriftGuard, Sentinel, ToolStore, BotStreet each span 3 = 12 */}
+          <ProjectCard project={driftguard} narrow />
+          <ProjectCard project={sentinel} narrow />
+          <ProjectCard project={toolstore} narrow />
+          <ProjectCard project={botstreet} narrow />
 
-          {/* Row 2 — Librarian full width: research depth deserves the space */}
+          {/* Row 2 — Librarian full 12-col width */}
           <ProjectCard project={librarian} full />
 
-          {/* Row 3 — Bot Street wide: high technical depth even without deployment */}
-          <ProjectCard project={botstreet} wide />
-
-          {/* Row 4 — remaining two */}
-          <ProjectCard project={peakpulse} />
-          <ProjectCard project={newscheck} />
+          {/* Row 3 — PeakPulse + NewsCheck span 6 each = 12 */}
+          <ProjectCard project={peakpulse} wide />
+          <ProjectCard project={newscheck} wide />
         </div>
       </div>
     </section>
