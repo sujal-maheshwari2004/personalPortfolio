@@ -65,6 +65,18 @@ export const projects = [
     tags: ["MCP", "FastMCP", "NetworkX", "sentence-transformers", "spaCy", "pytest"],
     github: "https://github.com/sujal-maheshwari2004/DriftGuard",
     pypi: "https://pypi.org/project/driftguard-ai/",
+    docs: "https://drift-guard-ai-docs.vercel.app/",
+  },
+  {
+    name: "Sentinel",
+    category: "MLOps Infra · Observability",
+    accent: "blue",
+    description:
+      "MLOps pipeline that sits transparently between Prometheus and Grafana. Scrapes your metrics, trains lightweight time-series models (Linear, ExponentialSmoothing, ARIMA, SGD), and emits predictions back as standard Prometheus metrics — so Grafana can display real and predicted data side by side with zero changes to your stack.",
+    tags: ["Prometheus", "Grafana", "numpy", "joblib", "httpx", "croniter"],
+    github: "https://github.com/sujal-maheshwari2004/Sentinel",
+    pypi: "https://pypi.org/project/sentinel-mlops/",
+    docs: "https://sentinel-docs-jet.vercel.app/",
   },
   {
     name: "Librarian Series",
@@ -97,7 +109,7 @@ export const projects = [
   {
     name: "ToolStore",
     category: "Project · LLM Infra",
-    accent: "blue",
+    accent: "indigo",
     description:
       "Automatic MCP server builder. Plain-English tool description → semantic search + cross-encoder reranking → clone repo → AST security scan → single runnable MCP server. 100% build accuracy across 32,767 evaluated subsets.",
     tags: ["MCP", "ChromaDB", "sentence-transformers", "AST"],
@@ -108,7 +120,7 @@ export const projects = [
   {
     name: "PeakPulse",
     category: "Project · AI Product",
-    accent: "indigo",
+    accent: "violet",
     description:
       "Customer support intelligence for e-commerce. 3-node LangGraph pipeline — classify → route → resolve — with deterministic escalation and rule-based fallback at <5ms, $0 cost. Bulk endpoint handles 50 concurrent queries via asyncio.gather.",
     tags: ["LangGraph", "FastAPI", "GPT-4o-mini", "React", "Zustand"],
@@ -117,7 +129,7 @@ export const projects = [
   {
     name: "NewsCheck",
     category: "Project · Pipelines",
-    accent: "violet",
+    accent: "amber",
     description:
       "YouTube → yt-dlp audio → Whisper transcription → GPT-4 summary in 5 structured bullets. Magic-link JWT auth, per-user rate limiting, deployed on Azure VM behind FastAPI.",
     tags: ["Whisper", "FastAPI", "Docker", "Azure VM"],
