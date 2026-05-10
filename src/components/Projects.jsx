@@ -68,7 +68,7 @@ function ProjectCard({ project, wide }) {
 }
 
 export default function Projects() {
-  const [driftguard, librarian, botstreet, ...rest] = projects;
+  const [driftguard, sentinel, librarian, ...rest] = projects;
 
   return (
     <section id="projects" className="section section-dark">
@@ -77,9 +77,14 @@ export default function Projects() {
         <h2 className="section-title">Projects</h2>
 
         <div className="proj-bento">
+          {/* Top row — flagship open-source packages with docs */}
           <ProjectCard project={driftguard} wide />
+          <ProjectCard project={sentinel} wide />
+
+          {/* Librarian gets a wide card too — lots to show */}
           <ProjectCard project={librarian} wide />
-          <ProjectCard project={botstreet} />
+
+          {/* Rest in normal 4-col cards */}
           {rest.map((p) => (
             <ProjectCard key={p.name} project={p} />
           ))}
