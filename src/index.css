@@ -439,7 +439,8 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 20px 48px rgba(14,165,233,0.1);
 }
 .proj-wide { grid-column: span 6; }
-.proj-full { grid-column: span 12; }
+.proj-full   { grid-column: span 12; }
+.proj-narrow { grid-column: span 3; }
 
 /* Per-accent hover borders */
 .proj-card.accent-green:hover  { border-color: rgba(16,185,129,0.4); }
@@ -532,11 +533,12 @@ img { display: block; max-width: 100%; }
 
 /* Responsive bento */
 @media (max-width: 960px) {
-  .proj-card { grid-column: span 6; }
-  .proj-wide { grid-column: span 12; }
+  .proj-card, .proj-narrow { grid-column: span 6; }
+  .proj-wide  { grid-column: span 12; }
+  .proj-full  { grid-column: span 12; }
 }
 @media (max-width: 600px) {
-  .proj-card, .proj-wide { grid-column: span 12; }
+  .proj-card, .proj-wide, .proj-full, .proj-narrow { grid-column: span 12; }
 }
 
 /* ── Tags ── */
