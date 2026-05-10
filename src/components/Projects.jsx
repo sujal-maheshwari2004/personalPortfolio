@@ -8,10 +8,10 @@ const accentMap = {
   indigo: { tag: "tag-indigo", lbl: "lbl-indigo"  },
 };
 
-function ProjectCard({ project, wide }) {
+function ProjectCard({ project, wide, full }) {
   const ac = accentMap[project.accent] || accentMap.blue;
   return (
-    <div className={`proj-card ${wide ? "proj-wide" : ""} accent-${project.accent}`}>
+    <div className={`proj-card ${wide ? "proj-wide" : ""} ${full ? "proj-full" : ""} accent-${project.accent}`}>
       <div className={`proj-lbl ${ac.lbl}`}>{project.category}</div>
       <h3 className="proj-name">{project.name}</h3>
       <p className="proj-desc">{project.description}</p>
@@ -68,7 +68,7 @@ function ProjectCard({ project, wide }) {
 }
 
 export default function Projects() {
-  const [driftguard, sentinel, librarian, ...rest] = projects;
+  const [driftguard, sentinel, librarian, botstreet, toolstore, peakpulse, newscheck] = projects;
 
   return (
     <section id="projects" className="section section-dark">
@@ -77,17 +77,20 @@ export default function Projects() {
         <h2 className="section-title">Projects</h2>
 
         <div className="proj-bento">
-          {/* Top row — flagship open-source packages with docs */}
+          {/* Row 1 — PyPI packages with live docs: equal priority, three wide cards */}
           <ProjectCard project={driftguard} wide />
           <ProjectCard project={sentinel} wide />
+          <ProjectCard project={toolstore} wide />
 
-          {/* Librarian gets a wide card too — lots to show */}
-          <ProjectCard project={librarian} wide />
+          {/* Row 2 — Librarian full width: research depth deserves the space */}
+          <ProjectCard project={librarian} full />
 
-          {/* Rest in normal 4-col cards */}
-          {rest.map((p) => (
-            <ProjectCard key={p.name} project={p} />
-          ))}
+          {/* Row 3 — Bot Street wide: high technical depth even without deployment */}
+          <ProjectCard project={botstreet} wide />
+
+          {/* Row 4 — remaining two */}
+          <ProjectCard project={peakpulse} />
+          <ProjectCard project={newscheck} />
         </div>
       </div>
     </section>
