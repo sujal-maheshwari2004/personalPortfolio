@@ -49,20 +49,25 @@ function ProjectCard({ project, wide, full, narrow }) {
       </div>
 
       <div className="proj-links">
-        <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
-          GitHub ↗
-        </a>
-        {project.pypi && (
-          <a href={project.pypi} className="proj-link" target="_blank" rel="noreferrer">
-            PyPI ↗
-          </a>
-        )}
-        {project.docs && (
-          <a href={project.docs} className="proj-link" target="_blank" rel="noreferrer">
-            Docs ↗
-          </a>
-        )}
-      </div>
+  <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
+    GitHub ↗
+  </a>
+  {project.live && (
+    <a href={project.live} className="proj-link" target="_blank" rel="noreferrer">
+      Live ↗
+    </a>
+  )}
+  {project.pypi && (
+    <a href={project.pypi} className="proj-link" target="_blank" rel="noreferrer">
+      PyPI ↗
+    </a>
+  )}
+  {project.docs && (
+    <a href={project.docs} className="proj-link" target="_blank" rel="noreferrer">
+      Docs ↗
+    </a>
+  )}
+</div>
     </div>
   );
 }
