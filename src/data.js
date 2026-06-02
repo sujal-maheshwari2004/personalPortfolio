@@ -117,7 +117,7 @@ export const projects = [
     name: "Bot Street",
     category: "Simulation · HFT Environment",
     accent: "amber",
-    description: "...",
+    description: "Full algorithmic trading simulator on Apache Kafka (KRaft). Price-time priority order book, circuit breakers, sentiment engine, 15+ quant indicators (RSI, MACD, Bollinger, OFI, VaR, CVaR), and an MCP server so LLM agents can trade live against bots.",
     tags: ["Kafka", "FastAPI", "MCP", "Rich", "Docker"],
     github: "https://github.com/sujal-maheshwari2004",
     live: "https://bot-street-terminal-957519594640.us-central1.run.app/",  // ← add this
