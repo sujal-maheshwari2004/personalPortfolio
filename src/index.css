@@ -651,3 +651,5 @@ img { display: block; max-width: 100%; }
   gap: 14px;
 }
 @media (prefers-color-scheme: dark) { .footer { border-color: var(--border-dark); } }
+
+.proj-third { grid-column: span 4; }
