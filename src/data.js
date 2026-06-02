@@ -122,6 +122,16 @@ export const projects = [
     github: "https://github.com/sujal-maheshwari2004",
     live: "https://bot-street-terminal-957519594640.us-central1.run.app/",  // ← add this
   },
+  {
+    name: "Coven",
+    category: "Agentic Infra · Multi-Agent DAG",
+    accent: "violet",
+    description:
+      "Multi-agent DAG pipeline framework. Give it a task in plain English — it spawns specialized agents, builds a dependency graph, executes agents in parallel across topological levels, and compiles a final output. Per-node MCP servers built automatically via ToolStorePy.",
+    tags: ["LiteLLM", "instructor", "NetworkX", "ToolStorePy", "asyncio", "Pydantic"],
+    github: "https://github.com/sujal-maheshwari2004/coven",
+    pypi: "https://pypi.org/project/coven-ai/",
+  },
 
   // ── Tier 4: Deployed products ─────────────────────────────
   {
