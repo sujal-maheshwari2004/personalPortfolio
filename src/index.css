@@ -653,3 +653,5 @@ img { display: block; max-width: 100%; }
 @media (prefers-color-scheme: dark) { .footer { border-color: var(--border-dark); } }
 
 .proj-third { grid-column: span 4; }
+@media (max-width: 960px) { .proj-third { grid-column: span 6; } }
+@media (max-width: 600px) { .proj-third { grid-column: span 12; } }
