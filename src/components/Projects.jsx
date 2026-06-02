@@ -91,21 +91,21 @@ export default function Projects() {
         <h2 className="section-title">Projects</h2>
 
         <div className="proj-bento">
-          {/* Row 1 — DriftGuard (wide) + ToolStore (wide) = 12 */}
+          {/* Row 1 — DriftGuard (wide 6) + ToolStore (wide 6) = 12 */}
           <ProjectCard project={driftguard} wide />
           <ProjectCard project={toolstore} wide />
 
-          {/* Row 2 — Sentinel (wide) + Coven (wide) = 12 */}
-          <ProjectCard project={sentinel} wide />
-          <ProjectCard project={coven} wide />
+          {/* Row 2 — Sentinel + Coven + BotStreet (narrow 4 each = 12) */}
+          <ProjectCard project={sentinel} narrow />
+          <ProjectCard project={coven} narrow />
+          <ProjectCard project={botstreet} narrow />
 
-          {/* Row 3 — Librarian full width */}
+          {/* Row 3 — Librarian full width = 12 */}
           <ProjectCard project={librarian} full />
 
-          {/* Row 4 — BotStreet + PeakPulse + NewsCheck narrow */}
-          <ProjectCard project={botstreet} narrow />
-          <ProjectCard project={peakpulse} narrow />
-          <ProjectCard project={newscheck} narrow />
+          {/* Row 4 — PeakPulse (wide 6) + NewsCheck (wide 6) = 12 */}
+          <ProjectCard project={peakpulse} wide />
+          <ProjectCard project={newscheck} wide />
         </div>
       </div>
     </section>
