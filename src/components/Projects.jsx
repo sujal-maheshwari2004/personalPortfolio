@@ -49,31 +49,40 @@ function ProjectCard({ project, wide, full, narrow }) {
       </div>
 
       <div className="proj-links">
-  <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
-    GitHub ↗
-  </a>
-  {project.live && (
-    <a href={project.live} className="proj-link" target="_blank" rel="noreferrer">
-      Live ↗
-    </a>
-  )}
-  {project.pypi && (
-    <a href={project.pypi} className="proj-link" target="_blank" rel="noreferrer">
-      PyPI ↗
-    </a>
-  )}
-  {project.docs && (
-    <a href={project.docs} className="proj-link" target="_blank" rel="noreferrer">
-      Docs ↗
-    </a>
-  )}
-</div>
+        <a href={project.github} className="proj-link" target="_blank" rel="noreferrer">
+          GitHub ↗
+        </a>
+        {project.live && (
+          <a href={project.live} className="proj-link" target="_blank" rel="noreferrer">
+            Live ↗
+          </a>
+        )}
+        {project.pypi && (
+          <a href={project.pypi} className="proj-link" target="_blank" rel="noreferrer">
+            PyPI ↗
+          </a>
+        )}
+        {project.docs && (
+          <a href={project.docs} className="proj-link" target="_blank" rel="noreferrer">
+            Docs ↗
+          </a>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function Projects() {
-  const [driftguard, sentinel, toolstore, librarian, botstreet, peakpulse, newscheck] = projects;
+  const [
+    driftguard,
+    sentinel,
+    toolstore,
+    librarian,
+    botstreet,
+    peakpulse,
+    newscheck,
+    coven,
+  ] = projects;
 
   return (
     <section id="projects" className="section section-dark">
@@ -82,16 +91,20 @@ export default function Projects() {
         <h2 className="section-title">Projects</h2>
 
         <div className="proj-bento">
-          {/* Row 1 — DriftGuard, Sentinel, ToolStore, BotStreet each span 3 = 12 */}
-          <ProjectCard project={driftguard} narrow />
+          {/* Row 1 — Coven (wide 6) + DriftGuard (wide 6) = 12 */}
+          <ProjectCard project={coven} wide />
+          <ProjectCard project={driftguard} wide />
+
+          {/* Row 2 — Sentinel + ToolStore + BotStreet (narrow 3 each = 9)... */}
+          {/* + Librarian spills into next row as full width */}
           <ProjectCard project={sentinel} narrow />
           <ProjectCard project={toolstore} narrow />
           <ProjectCard project={botstreet} narrow />
 
-          {/* Row 2 — Librarian full 12-col width */}
+          {/* Row 3 — Librarian full 12-col width */}
           <ProjectCard project={librarian} full />
 
-          {/* Row 3 — PeakPulse + NewsCheck span 6 each = 12 */}
+          {/* Row 4 — PeakPulse + NewsCheck span 6 each = 12 */}
           <ProjectCard project={peakpulse} wide />
           <ProjectCard project={newscheck} wide />
         </div>
