@@ -4,7 +4,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 
 export default [
-  { ignores: ["dist", "dev-dist", "public", "playwright-report", "test-results"] },
+  { ignores: ["dist", "dev-dist", "public"] },
   {
     files: ["**/*.{js,jsx}"],
     languageOptions: {
@@ -38,7 +38,7 @@ export default [
   },
   // Tests
   {
-    files: ["**/*.test.{js,jsx}", "tests/**/*.{js,jsx}", "e2e/**/*.{js,jsx}"],
+    files: ["**/*.test.{js,jsx}", "tests/**/*.{js,jsx}"],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   // shadcn/ui generated primitives — relax fast-refresh noise

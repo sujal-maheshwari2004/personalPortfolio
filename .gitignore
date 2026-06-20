@@ -13,9 +13,7 @@ dist-ssr
 dev-dist
 *.local
 
-# test / CI artifacts
-playwright-report
-test-results
+# CI artifacts
 .lighthouseci
 
 # Editor directories and files

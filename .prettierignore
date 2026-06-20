@@ -4,5 +4,3 @@ public/*.png
 public/*.svg
 public/*.xml
 node_modules
-playwright-report
-test-results
