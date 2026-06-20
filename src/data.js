@@ -132,6 +132,7 @@ export const projects = [
       "Mafia (Werewolf) engine with a custom agent-to-agent comm protocol — unicast / multicast / broadcast with dual-layer visibility, where choosing a private channel is itself a visible, suspicion-fuelling move. Pluggable heuristic + LLM agents over one interchangeable interface, plus a FastAPI WebSocket server (Cloud Run) streaming an hourly shared game live.",
     tags: ["FastAPI", "WebSocket", "LangChain", "Pydantic", "Docker"],
     github: "https://github.com/sujal-maheshwari2004/mafia-a2a",
+    live: "https://mafia-a2a-frontend-909729949991.asia-south1.run.app/",
   },
   {
     name: "Bot Street",
