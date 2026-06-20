@@ -112,7 +112,27 @@ export const projects = [
     ],
   },
 
+  {
+    name: "librarian-press",
+    category: "LLM Infra · Training Framework",
+    accent: "violet",
+    description:
+      "Config-driven framework to pretrain and fine-tune GPT models from a single JSON file. Handles tokenizer training → tokenization → packing → training → eval → export end-to-end. LoRA / BitFit / full fine-tune with completion-only masked loss, restart-safe shard-tracked pipeline, multi-GPU DDP via torchrun, opt-in Prometheus metrics, and Ollama-style export & chat.",
+    tags: ["PyTorch", "LoRA", "DDP", "BPE", "Prometheus", "RoPE"],
+    github: "https://github.com/sujal-maheshwari2004/librarian-press",
+    pypi: "https://pypi.org/project/librarian-press/",
+  },
+
   // ── Tier 3: High technical depth, not deployed ────────────
+  {
+    name: "Mafia A2A",
+    category: "Multi-Agent · A2A Protocol",
+    accent: "amber",
+    description:
+      "Mafia (Werewolf) engine with a custom agent-to-agent comm protocol — unicast / multicast / broadcast with dual-layer visibility, where choosing a private channel is itself a visible, suspicion-fuelling move. Pluggable heuristic + LLM agents over one interchangeable interface, plus a FastAPI WebSocket server (Cloud Run) streaming an hourly shared game live.",
+    tags: ["FastAPI", "WebSocket", "LangChain", "Pydantic", "Docker"],
+    github: "https://github.com/sujal-maheshwari2004/mafia-a2a",
+  },
   {
     name: "Bot Street",
     category: "Simulation · HFT Environment",

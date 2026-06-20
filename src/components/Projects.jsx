@@ -83,6 +83,8 @@ export default function Projects() {
   const coven      = byName("Coven");
   const botstreet  = byName("Bot Street");
   const librarian  = byName("Librarian Series");
+  const librarypress = byName("librarian-press");
+  const mafia      = byName("Mafia A2A");
   const peakpulse  = byName("PeakPulse");
   const newscheck  = byName("NewsCheck");
 
@@ -105,7 +107,11 @@ export default function Projects() {
           {/* Lane 3 — Librarian full width */}
           <ProjectCard project={librarian} full />
 
-          {/* Lane 4 — PeakPulse + NewsCheck, half width each */}
+          {/* Lane 4 — librarian-press + Mafia A2A, half width each */}
+          <ProjectCard project={librarypress} wide />
+          <ProjectCard project={mafia} wide />
+
+          {/* Lane 5 — PeakPulse + NewsCheck, half width each */}
           <ProjectCard project={peakpulse} wide />
           <ProjectCard project={newscheck} wide />
         </div>
