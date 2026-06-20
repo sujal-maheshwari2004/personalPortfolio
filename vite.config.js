@@ -56,20 +56,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // No manual chunk splitting: hand-splitting interdependent node_modules
+  // (react / react-router / radix / motion) into separate chunks created a
+  // cross-chunk circular initialization ("Cannot access 'x' before
+  // initialization") that blanked the page in production. Rollup's default
+  // chunking keeps circular-dependent modules together. `three` stays lazy on
+  // its own because ShaderBackdrop is a dynamic import.
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (!id.includes("node_modules")) return;
-          if (id.includes("react-router") || id.includes("/react/") || id.includes("react-dom"))
-            return "react";
-          if (id.includes("motion")) return "motion";
-          if (id.includes("three") || id.includes("@react-three")) return "three";
-          if (id.includes("cmdk") || id.includes("radix-ui") || id.includes("@radix-ui"))
-            return "ui";
-          return "vendor";
-        },
-      },
-    },
+    chunkSizeWarningLimit: 1000,
   },
 });
