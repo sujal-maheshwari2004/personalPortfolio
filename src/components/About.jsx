@@ -1,160 +1,87 @@
-import React, { useRef, useState } from 'react';
-import { motion, useMotionValue, useTransform, useAnimationFrame } from 'framer-motion';
+import { testimonials } from "../data";
+import SectionHeader from "@/components/SectionHeader";
+import Reveal from "@/components/motion/Reveal";
 
-const AnimatedText = ({ text, className }) => (
-  <motion.div
-    className={`inline-block ${className}`}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true }}
-    variants={{ visible: { transition: { staggerChildren: 0.04 } } }}
-  >
-    {text.split('').map((char, index) => (
-      <motion.span
-        key={index}
-        className="inline-block"
-        variants={{
-          hidden: { opacity: 0, y: `0.25em` },
-          visible: { opacity: 1, y: 0 },
-        }}
-        transition={{ duration: 0.4 }}
-      >
-        {char === ' ' ? '\u00A0' : char}
-      </motion.span>
-    ))}
-  </motion.div>
-);
-
-const aiSkills = ['Python', 'PyTorch', 'Scikit-learn', 'Langchain', 'Langgraph'];
-const webSkills = ['JavaScript', 'React', 'FastAPI', 'Flask', 'Streamlit'];
-
-const allSkills = [
-  'Python', 'C/C++', 'JavaScript', 'React', 'FastAPI',
-  'Flask', 'Streamlit', 'MongoDB', 'PostgreSQL', 'Azure',
-  'PyTorch', 'Scikit-learn', 'SQL', 'Git', 'Langchain', 'Langgraph',
+const facts = [
+  ["Based in", "Gurugram / Dehradun, India"],
+  ["Focus", "LLMs · agentic infra · full-stack"],
+  ["Currently", "AI Intern @ BeastLife"],
+  ["Education", "B.Tech CS · AI & DS (final year)"],
 ];
 
-const getSkillMeta = (skill) => {
-  if (aiSkills.includes(skill)) {
-    return { category: 'AI/ML', className: 'border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] hover:shadow-[0_0_16px_3px_#22d3ee]' };
-  }
-  if (webSkills.includes(skill)) {
-    return { category: 'Web Dev', className: 'border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)] hover:shadow-[0_0_16px_3px_#facc15]' };
-  }
-  return { category: 'Other', className: 'border-white/20 hover:shadow-[0_0_12px_2px_#e5e7eb]' };
-};
-
-const SkillItem = ({ skill, offsetX }) => {
-  const itemRef = useRef(null);
-  const x = useMotionValue(offsetX);
-  const scale = useTransform(x, [-400, 0, 400], [0.6, 1, 0.6]);
-  const opacity = useTransform(x, [-400, 0, 400], [0.2, 1, 0.2]);
-  const { className, category } = getSkillMeta(skill);
-
-  useAnimationFrame(() => {
-    if (!itemRef.current) return;
-    const rect = itemRef.current.getBoundingClientRect();
-    const center = window.innerWidth / 2;
-    x.set(rect.left - center + rect.width / 2);
-  });
-
+export default function About() {
   return (
-    <motion.div
-      ref={itemRef}
-      style={{ scale, opacity }}
-      className={`min-w-[120px] px-6 py-3 mx-2 text-sm font-semibold rounded-lg backdrop-blur-md text-white bg-white/10 hover:scale-105 transition-transform duration-200 border relative group ${className}`}
-    >
-      {skill}
-      <div className="absolute bottom-full mb-2 px-2 py-1 text-xs rounded bg-white text-black opacity-0 group-hover:opacity-100 transition-opacity">
-        {category}
-      </div>
-    </motion.div>
-  );
-};
+    <section id="about" className="relative z-10 px-6 py-28">
+      <div className="mx-auto max-w-[1100px]">
+        <SectionHeader number="A" label="Who's writing" title="About" />
 
-const About = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [filter, setFilter] = useState('All');
+        <div className="grid gap-10 md:grid-cols-[300px_1fr]">
+          {/* portrait — drop a real photo at src/assets/portrait.jpg and import it here */}
+          <Reveal>
+            <div className="relative aspect-square overflow-hidden rounded-xl border border-border bg-card">
+              <div className="bg-grain absolute inset-0 opacity-[0.06]" />
+              <div className="absolute inset-0 grid place-items-center">
+                <span className="font-serif text-[120px] italic leading-none text-foreground/90">
+                  SM
+                </span>
+              </div>
+              <span className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-[0.12em] text-subtle">
+                Sujal Maheshwari
+              </span>
+              <span className="absolute right-3 top-3 size-2 rounded-full bg-spot" />
+            </div>
+          </Reveal>
 
-  const filteredSkills =
-    filter === 'All'
-      ? allSkills
-      : allSkills.filter((skill) => getSkillMeta(skill).category === filter);
+          <div>
+            <Reveal>
+              <p className="font-serif text-[clamp(22px,2.8vw,30px)] leading-[1.3] text-foreground">
+                I&apos;m a final-year CS (AI &amp; DS) student who likes the parts of AI most people
+                skip — the <span className="italic text-spot">data pipelines</span>, the resume
+                logic, the safety gates — because that&apos;s where production lives.
+              </p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <p className="mt-5 max-w-[60ch] text-[15px] font-light leading-[1.8] text-muted-foreground">
+                I&apos;ve trained a language model from scratch, shipped MCP infrastructure to PyPI,
+                built an exchange on Kafka, and designed an agent-to-agent protocol for social
+                deduction. I care about systems that actually run — observable, resumable, and
+                honest about their failure modes. Lately I&apos;m deep in agentic workflows and the
+                tooling that makes them reliable.
+              </p>
+            </Reveal>
 
-  return (
-    <section
-      id="about"
-      className="min-h-screen px-4 py-20 bg-gradient-to-b from-gray-900 via-slate-900 to-black text-gray-900 dark:text-white"
-    >
-      <div className="max-w-4xl mx-auto text-center">
-        <p className="text-sm text-blue-500 dark:text-yellow-500 uppercase tracking-wider mb-2">
-          Get to know me
-        </p>
-        <AnimatedText
-          text="About Me"
-          className="text-4xl md:text-5xl font-bold text-blue-600 dark:text-yellow-400 mb-10"
-        />
-        <motion.div
-          className="text-md md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed text-center max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <p>
-            I’m Sujal Maheshwari, a final-year B.Tech Computer Science (AI & DS) student passionate about building intelligent, high-impact software systems.
-          </p>
-          <p className="mt-4">
-            My experience spans full-stack AI tools, web pipelines, and LLM-powered applications. I’ve worked remotely with teams across India and contributed to both live deployments and patented AI systems. Currently, I’m interning at Basal AI, building production-grade pipelines and generative AI tools.
-          </p>
-        </motion.div>
+            <Reveal delay={0.1}>
+              <dl className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+                {facts.map(([k, v]) => (
+                  <div key={k} className="bg-card px-4 py-3">
+                    <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-subtle">
+                      {k}
+                    </dt>
+                    <dd className="mt-1 text-[14px] text-foreground">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
 
-        <div className="my-12 w-32 mx-auto border-t border-dashed border-white/30 animate-pulse" />
-
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
-          {['All', 'AI/ML', 'Web Dev', 'Other'].map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-md text-sm font-medium border ${
-                filter === cat
-                  ? 'bg-blue-600 text-white border-blue-500'
-                  : 'bg-white/10 text-gray-300 border-white/20 hover:bg-white/20'
-              } transition`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Carousel */}
-        <div
-          className="relative overflow-hidden mt-12 px-4 cursor-grab active:cursor-grabbing"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <motion.div
-            className="flex w-max"
-            animate={!isHovered ? { x: '-50%' } : false}
-            transition={!isHovered ? {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 60,
-              ease: 'linear',
-            } : {}}
-            drag="x"
-            dragConstraints={{ left: -1000, right: 0 }}
-            dragElastic={0.05}
-          >
-            {[...filteredSkills, ...filteredSkills].map((skill, idx) => (
-              <SkillItem key={idx} skill={skill} offsetX={0} />
-            ))}
-          </motion.div>
+            {testimonials.length > 0 && (
+              <div className="mt-10 grid gap-5 sm:grid-cols-2">
+                {testimonials.map((t) => (
+                  <Reveal key={t.name}>
+                    <figure className="rounded-lg border border-border bg-card p-5">
+                      <blockquote className="font-serif text-[18px] italic leading-snug text-foreground">
+                        &ldquo;{t.quote}&rdquo;
+                      </blockquote>
+                      <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-wider text-subtle">
+                        {t.name} · {t.role}
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default About;
+}

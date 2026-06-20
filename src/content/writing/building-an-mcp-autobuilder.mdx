@@ -1,0 +1,48 @@
+---
+title: Turning plain English into a runnable MCP server
+date: 2026-01-08
+summary: ToolStorePy takes a one-line tool description and produces a single runnable MCP server — via semantic retrieval, cross-encoder reranking, an AST security scan, and codegen. Here's the pipeline, and the parts that actually matter.
+tags: [MCP, RAG, Tooling]
+---
+
+LLM agents are only as useful as the tools you give them, and wiring up an MCP server by hand for
+every new capability is tedious, repetitive work. **ToolStorePy** collapses that to a sentence in,
+a runnable server out.
+
+## The pipeline
+
+Given a `queries.json` of plain-English tool descriptions:
+
+1. **Retrieve** — embed each request (`all-MiniLM-L6-v2`) and semantic-search a curated tool index in ChromaDB.
+2. **Rerank** — a cross-encoder (`ms-marco-MiniLM-L-6-v2`) reorders the shortlist by true relevance.
+3. **Clone** — pull the winning repo through a local bare-repo cache (`~/.repo_cache`), so re-builds skip the network.
+4. **Scan** — run a static **AST security scan** over every repo before trusting a line of it.
+5. **Merge & extract** — merge any `.env.example` files, then pull out `@tool` functions via AST.
+6. **Generate** — emit one unified, runnable MCP server (`streamable-http`).
+
+## Why reranking earns its keep
+
+A bi-encoder embeds query and document *separately* — fast, but blunt. A cross-encoder reads them
+*together*, so it catches relevance a cosine score misses. Retrieval gets a cheap, recall-oriented
+shortlist; the cross-encoder sorts it for precision. The standard two-stage pattern:
+
+```python
+docs = collection.query(query_embeddings=[emb], n_results=top_k)["documents"][0]
+ranked = reranker.rank_top_k(query, docs, k=1)   # cross-encoder reads (query, doc) jointly
+best = ranked[0]
+```
+
+## The part people skip: safety
+
+Cloning arbitrary repos and running them is how you get owned. Before anything executes,
+ToolStorePy walks each parsed syntax tree and flags dangerous calls — `eval`/`exec`, `os.system`,
+`subprocess(..., shell=True)`, `pickle.loads`, `yaml.load` without a `Loader` — as **HIGH**, with
+MEDIUM/LOW tiers below. It's static analysis, so there's no sandbox to escape; a HIGH finding
+pauses the build for a decision (or, with `--llm-scan`, an LLM makes the include/skip call
+autonomously). Across **32,767 evaluated subsets** the builder hit **100% build accuracy**.
+
+## Takeaway
+
+"Generate code with an LLM" is the easy 80%. The valuable 20% is retrieval that's actually precise
+and a safety gate you'd trust pointed at the open internet — which is exactly why ToolStorePy
+became the per-node tool builder inside my multi-agent framework, Coven.

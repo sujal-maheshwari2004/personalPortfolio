@@ -1,0 +1,45 @@
+---
+title: Librarian Series
+summary: A 125M-parameter language model built end to end — custom tokenizer, modern GPT, a resumable data pipeline, and a config-driven SFT framework.
+role: Creator
+year: 2025
+stack: [PyTorch, LoRA, BPE, HuggingFace]
+status: Live · HuggingFace
+---
+
+import Pipeline from "@/components/mdx/Pipeline";
+
+## The problem
+
+Everyone fine-tunes; far fewer build the base model. I wanted to understand the entire
+stack — tokenizer to checkpoint — so I trained **Librarian** from a blank file.
+
+## Architecture
+
+Modern-GPT, every choice earning its place: **RoPE** positions (no learned table, and it
+extrapolates), **RMSNorm** (cheaper, just as stable), **SwiGLU** MLP, and **weight tying**
+between embedding and LM head.
+
+```python
+class TransformerBlock(nn.Module):
+    def forward(self, x):
+        x = x + self.attn(self.attn_norm(x))   # RoPE in attention
+        x = x + self.mlp(self.mlp_norm(x))     # SwiGLU
+        return x
+```
+
+## The pipeline is the real project
+
+<Pipeline steps={["Ingest", "Train tokenizer", "Tokenize", "Pack", "Train", "Eval"]} caption="Every stage shard-tracked and restart-safe" />
+
+The model converges; a pipeline that loses six hours to a flaky disk does not forgive you.
+So every stage is **shard-tracked with atomic, restart-safe manifests** — a crash at hour 6
+resumes at hour 6. Tokens pack into fixed-length sequences with carry-over across shard
+boundaries so nothing is wasted. The whole run is described by a single JSON config.
+
+## Impact
+
+- **6.19 perplexity** on WikiText-103 + TinyStories at 92k steps.
+- LoRA-tuned on DailyDialog into a serviceable instruct model.
+- A config-driven SFT framework (`librarian-press`, on PyPI) so the same rig adapts to new tasks.
+- Base + instruct checkpoints published on HuggingFace.

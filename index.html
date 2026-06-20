@@ -3,8 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sujal Maheshwari</title>
-    <meta name="description" content="Full Stack AI Developer — LLMs, agentic systems, and production-grade AI engineering." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Sujal Maheshwari — Full-Stack AI Developer</title>
+    <meta
+      name="description"
+      content="Full-Stack AI Developer building production-grade LLM systems, training language models from scratch, and shipping agentic infrastructure."
+    />
+    <meta name="author" content="Sujal Maheshwari" />
+    <meta name="theme-color" content="#f4f1e9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0b08" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sujalmaheshwari.com" />
+    <meta property="og:title" content="Sujal Maheshwari — Full-Stack AI Developer" />
+    <meta
+      property="og:description"
+      content="LLM systems, agentic infrastructure, and language models from scratch — by a final-year CS (AI & DS) engineer."
+    />
+    <meta property="og:image" content="https://sujalmaheshwari.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sujal Maheshwari — Full-Stack AI Developer" />
+    <meta
+      name="twitter:description"
+      content="LLM systems, agentic infrastructure, and language models from scratch."
+    />
+    <meta name="twitter:image" content="https://sujalmaheshwari.com/og.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sujal Maheshwari",
+        "jobTitle": "Full-Stack AI Developer",
+        "url": "https://sujalmaheshwari.com",
+        "image": "https://sujalmaheshwari.com/og.png",
+        "sameAs": [
+          "https://github.com/sujal-maheshwari2004",
+          "https://linkedin.com/in/sujal-maheshwari",
+          "https://huggingface.co/MaheshwariSujal"
+        ],
+        "knowsAbout": ["Large Language Models", "Agentic AI", "MCP", "Full-Stack Engineering", "PyTorch"]
+      }
+    </script>
+
+    <!-- Fonts are self-hosted via @fontsource (imported in main.jsx) -->
+
+    <!-- Anti-FOUC: apply the stored/preferred theme before React mounts -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var isDark = stored ? stored === "dark" : prefersDark;
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

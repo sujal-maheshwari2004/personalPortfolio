@@ -1,0 +1,49 @@
+---
+title: Mafia A2A
+summary: A Mafia engine with a custom agent-to-agent protocol where choosing a private channel is itself a visible, suspicious move — plus a live WebSocket spectator server.
+role: Creator
+year: 2026
+stack: [FastAPI, WebSocket, LangChain, Pydantic, Docker]
+status: Live
+---
+
+import Pipeline from "@/components/mdx/Pipeline";
+
+## The problem
+
+Most multi-agent demos dump text into one shared log. Real social deduction isn't like that —
+at a Mafia table you choose *who hears you*, and choosing to whisper is information everyone
+else can see.
+
+## The protocol
+
+Three cast types — `broadcast`, `multicast` (huddle), `unicast` (whisper) — and a
+**dual-layer visibility** model. There's an omniscient spectator log, but each agent's feed
+holds **Sightings**: full content if they were a party, otherwise just the message's *shape*.
+
+```python
+for name in present:
+    party = {sender, *recipients}
+    feed_for(name).append(Sighting(
+        sender=sender, cast=cast, to=recipients,
+        content=content if name in party else None,  # shape only
+    ))
+```
+
+That single `if name in party` line is the whole game: a private channel is a visible,
+suspicion-fuelling act — exactly like leaning in to whisper.
+
+<Pipeline steps={["Night (mafia awake)", "Discussion", "Vote", "Resolve", "Repeat"]} caption="Capability mirrors presence each phase" />
+
+## Pluggable minds, one interface
+
+The bus is agent-agnostic — it knows nothing about roles. Rule-based and **LLM-backed**
+agents implement the same interface, so they're interchangeable and can play each other. The
+emergent behaviour (coordinated kills, fake claims, pressure on the quiet player) comes from
+the visibility rules, not from hardcoding.
+
+## Impact
+
+A FastAPI **WebSocket server** streams a shared game live; spectators tune in mid-round and
+are caught up instantly. Structured `GameEvent`s (not pre-baked text) let any frontend decide
+how to narrate — deployed on Cloud Run with a live frontend.

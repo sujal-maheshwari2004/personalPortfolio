@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://sujalmaheshwari.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://sujalmaheshwari.com/writing</loc><priority>0.7</priority></url>
+  <url><loc>https://sujalmaheshwari.com/work/bot-street</loc><priority>0.8</priority></url>
+  <url><loc>https://sujalmaheshwari.com/work/driftguard</loc><priority>0.8</priority></url>
+  <url><loc>https://sujalmaheshwari.com/work/librarian</loc><priority>0.8</priority></url>
+  <url><loc>https://sujalmaheshwari.com/work/mafia-a2a</loc><priority>0.8</priority></url>
+  <url><loc>https://sujalmaheshwari.com/work/toolstore</loc><priority>0.8</priority></url>
+  <url><loc>https://sujalmaheshwari.com/writing/a-multi-agent-dag-framework</loc><lastmod>2026-05-22</lastmod><priority>0.6</priority></url>
+  <url><loc>https://sujalmaheshwari.com/writing/building-an-mcp-autobuilder</loc><lastmod>2026-01-08</lastmod><priority>0.6</priority></url>
+  <url><loc>https://sujalmaheshwari.com/writing/designing-an-agent-to-agent-protocol</loc><lastmod>2026-02-02</lastmod><priority>0.6</priority></url>
+  <url><loc>https://sujalmaheshwari.com/writing/predictive-observability-prometheus-grafana</loc><lastmod>2026-04-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://sujalmaheshwari.com/writing/training-a-125m-language-model-from-scratch</loc><lastmod>2026-03-12</lastmod><priority>0.6</priority></url>
+</urlset>

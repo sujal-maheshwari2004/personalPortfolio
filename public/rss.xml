@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+    <title>Sujal Maheshwari — Writing</title>
+    <link>https://sujalmaheshwari.com/writing</link>
+    <description>Notes on LLMs, agents, and systems engineering.</description>
+    <item>
+      <title>A multi-agent framework where the graph builds itself</title>
+      <link>https://sujalmaheshwari.com/writing/a-multi-agent-dag-framework</link>
+      <guid>https://sujalmaheshwari.com/writing/a-multi-agent-dag-framework</guid>
+      <pubDate>Fri, 22 May 2026 00:00:00 GMT</pubDate>
+      <description>Coven takes a task in plain English, decomposes it into specialized agents, infers the dependency graph from how they share artifacts, runs each level in parallel, and compiles one coherent result — wiring real tools per node along the way.</description>
+    </item>
+    <item>
+      <title>Predictive observability — drift-triggered retraining between Prometheus and Grafana</title>
+      <link>https://sujalmaheshwari.com/writing/predictive-observability-prometheus-grafana</link>
+      <guid>https://sujalmaheshwari.com/writing/predictive-observability-prometheus-grafana</guid>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Sentinel scrapes your metrics, trains a lightweight time-series model per metric, and emits forecasts back as standard Prometheus metrics — so Grafana plots real and predicted side by side, with zero changes to either. The interesting part is what happens when a model goes stale.</description>
+    </item>
+    <item>
+      <title>Training a 125M-parameter language model from scratch</title>
+      <link>https://sujalmaheshwari.com/writing/training-a-125m-language-model-from-scratch</link>
+      <guid>https://sujalmaheshwari.com/writing/training-a-125m-language-model-from-scratch</guid>
+      <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
+      <description>What it actually takes to go from a folder of text to a coherent GPT — a modern architecture (RoPE, RMSNorm, SwiGLU) and a restart-safe data pipeline where losing six hours to a flaky disk is simply not allowed.</description>
+    </item>
+    <item>
+      <title>Designing an agent-to-agent protocol for social deduction</title>
+      <link>https://sujalmaheshwari.com/writing/designing-an-agent-to-agent-protocol</link>
+      <guid>https://sujalmaheshwari.com/writing/designing-an-agent-to-agent-protocol</guid>
+      <pubDate>Mon, 02 Feb 2026 00:00:00 GMT</pubDate>
+      <description>Agents that play Mafia have to talk like people do — broadcast, huddle, whisper — and a private channel should itself be a visible, suspicious move. Here&apos;s the A2A protocol I built for it, and the server that streams a fresh game every hour.</description>
+    </item>
+    <item>
+      <title>Turning plain English into a runnable MCP server</title>
+      <link>https://sujalmaheshwari.com/writing/building-an-mcp-autobuilder</link>
+      <guid>https://sujalmaheshwari.com/writing/building-an-mcp-autobuilder</guid>
+      <pubDate>Thu, 08 Jan 2026 00:00:00 GMT</pubDate>
+      <description>ToolStorePy takes a one-line tool description and produces a single runnable MCP server — via semantic retrieval, cross-encoder reranking, an AST security scan, and codegen. Here&apos;s the pipeline, and the parts that actually matter.</description>
+    </item>
+</channel></rss>

@@ -1,0 +1,70 @@
+---
+title: Designing an agent-to-agent protocol for social deduction
+date: 2026-02-02
+summary: Agents that play Mafia have to talk like people do — broadcast, huddle, whisper — and a private channel should itself be a visible, suspicious move. Here's the A2A protocol I built for it, and the server that streams a fresh game every hour.
+tags: [Agents, Protocol, LLM]
+---
+
+Most multi-agent demos let agents emit text into one shared log. Real social deduction doesn't
+work like that. At a Mafia table you choose, every time you speak, *who hears you* — and choosing
+to whisper is itself information everyone else can see.
+
+So I built an **agent-to-agent (A2A) protocol** around that idea, completely decoupled from the
+game: the bus knows nothing about roles, factions, or who — human or AI — is behind a seat.
+
+## Three cast types
+
+Every message picks an audience:
+
+- `broadcast` — address the whole room
+- `multicast` — pull two or more people into a side huddle
+- `unicast` — whisper to exactly one person
+
+## Dual-layer visibility
+
+The trick is what *others* perceive. There's an omniscient spectator log with full content, but
+each agent's personal feed holds **Sightings** — full content if they were a party to the message,
+otherwise just its *shape*: who spoke, what kind of cast, to whom.
+
+```python
+party = {sender, *recipients}
+for name in present:
+    feed_for(name).append(Sighting(
+        seq=seq,
+        sender=sender,
+        cast=request.cast,
+        to=recipients,
+        content=request.content if name in party else None,  # shape only
+    ))
+```
+
+That single `if name in party` line is the whole game: choosing a private channel is a
+**visible, suspicion-fuelling move**, exactly like being noticed leaning in to whisper.
+
+Pacing is just one global, monotonically increasing sequence number stamped at submission time —
+that's the entire "queue". Ordering only matters where two messages land in the same inbox;
+everywhere else it costs nothing.
+
+## Capability mirrors presence
+
+At night only the Mafia are "awake" and able to send or perceive anything. During the day everyone
+still at the table can broadcast, huddle, or whisper. The bus validates presence and recipients and
+raises `ProtocolError` on anything illegal — so a hallucinated name from an LLM agent can never
+produce a valid message.
+
+## Pluggable minds, one interface
+
+Every seat implements the same `Agent` interface (`choose_night_target`, `choose_vote`,
+`discussion_turn`) over a read-only view of what it personally knows. A rule-based `HeuristicAgent`
+and a LangChain-backed `LLMAgent` are fully interchangeable — `--brain mixed` seats half of each so
+you can compare them in one game. The interesting behaviour (coordinated kills, fake claims,
+pressure on the quiet player) emerges from the visibility rules, not from hardcoding.
+
+## Streaming it live
+
+The simulation never prints; it *yields* structured `GameEvent`s, so the same game drives a console
+spectator, a test, or a FastAPI WebSocket. A fresh table of ten LLM agents sits down every hour on
+the hour; connect any time and a first `status` frame tells you whether you're getting a live game,
+a replay of the last one, or a countdown — then frames flow in the exact order the game produced
+them. Because LLM calls block, the game runs on a worker thread and bridges events onto the event
+loop, so a slow model can never stall a viewer's socket.

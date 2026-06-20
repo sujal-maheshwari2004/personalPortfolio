@@ -1,0 +1,70 @@
+---
+title: Training a 125M-parameter language model from scratch
+date: 2026-03-12
+summary: What it actually takes to go from a folder of text to a coherent GPT — a modern architecture (RoPE, RMSNorm, SwiGLU) and a restart-safe data pipeline where losing six hours to a flaky disk is simply not allowed.
+tags: [LLM, PyTorch, Pretraining]
+---
+
+Everyone fine-tunes. Far fewer people build the base model. I wanted to understand the whole
+stack end to end, so I built **librarian-press** — a config-driven framework that takes you from
+a folder of clean text to a trained, chattable GPT — and trained **Librarian** with it.
+
+The entire run is one JSON file. The top-level `mode` is `pretrain`, `sft`, or `both`; the
+pipeline does the rest.
+
+## The architecture
+
+Modern-GPT, nothing exotic, but every choice earns its place:
+
+- **RoPE** for positional information — no learned position table; applied to q and k by rotating feature pairs, and it extrapolates.
+- **RMSNorm** instead of LayerNorm — cheaper, and just as stable in practice.
+- **SwiGLU** MLP — `down(silu(gate(x)) * up(x))`; the gating consistently beat plain GELU.
+- **Weight tying** between the input embedding and the LM head — free parameters back.
+
+```python
+class TransformerBlock(nn.Module):
+    def __init__(self, cfg):
+        super().__init__()
+        self.attn_norm = RMSNorm(cfg.dim)
+        self.attn = SelfAttention(cfg)   # RoPE applied to q, k
+        self.mlp_norm = RMSNorm(cfg.dim)
+        self.mlp = MLP(cfg)              # SwiGLU
+
+    def forward(self, x):
+        x = x + self.attn(self.attn_norm(x))
+        x = x + self.mlp(self.mlp_norm(x))
+        return x
+```
+
+## Data is the actual project
+
+The model converges; a pipeline that loses six hours to a flaky disk does not forgive you. So
+every stage — ingest → train tokenizer → tokenize → pack → train → eval — is **shard-tracked
+and restart-safe**. Each shard moves through `pending → processing → verified → done` in a JSON
+manifest written to a `.tmp` and `os.replace`d into place, so it's never half-written. A stage
+is "done" only when every shard is; re-running resumes instead of recomputing.
+
+Packing is where tokens quietly get wasted. The packer streams tokenized shards and carries the
+partial sequence across shard boundaries, so nothing falls off the end:
+
+```python
+def feed(self, tokens):
+    combined = np.concatenate([self._carry, tokens])
+    n = len(combined) // self.seq_len
+    if n:
+        self._writer.write(combined[: n * self.seq_len].tobytes())
+    self._carry = combined[n * self.seq_len:]   # remainder rolls into the next shard
+```
+
+## The numbers
+
+The base model reached **6.19 perplexity** at 92k steps on WikiText-103 + TinyStories. A LoRA
+pass on DailyDialog turned it into a serviceable chat model. Training data-parallelizes across
+GPUs with `torchrun` (DDP), a finished run exports into a portable, Ollama-style folder you can
+chat with, and an opt-in `/metrics` endpoint streams loss and throughput straight into Grafana —
+with no `prometheus_client` dependency.
+
+## What I'd tell past me
+
+Spend your time on the data pipeline and the resume logic, not the model file. The architecture
+is a solved problem; a pipeline that survives a crash at hour six is what actually ships a model.

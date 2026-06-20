@@ -1,26 +1,24 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Experience from "./components/Experience";
-import Projects from "./components/Projects";
-import Stack from "./components/Stack";
-import Contact from "./components/Contact";
-import "./index.css";
+import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+
+const Writing = lazy(() => import("./pages/Writing"));
+const WritingPost = lazy(() => import("./pages/WritingPost"));
+const CaseStudy = lazy(() => import("./pages/CaseStudy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Experience />
-        <Projects />
-        <Stack />
-        <Contact />
-      </main>
-      <footer className="footer">
-        <p>Sujal Maheshwari · {new Date().getFullYear()}</p>
-      </footer>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="work/:slug" element={<CaseStudy />} />
+        <Route path="writing" element={<Writing />} />
+        <Route path="writing/:slug" element={<WritingPost />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
 

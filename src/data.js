@@ -59,6 +59,7 @@ export const projects = [
   // ── Tier 1: PyPI packages with live docs ──────────────────
   {
     name: "DriftGuard",
+    slug: "driftguard",
     category: "Agentic Infra · Memory Layer",
     accent: "green",
     description:
@@ -81,6 +82,7 @@ export const projects = [
   },
   {
     name: "ToolStore",
+    slug: "toolstore",
     category: "LLM Infra · MCP Builder",
     accent: "indigo",
     description:
@@ -94,6 +96,7 @@ export const projects = [
   // ── Tier 2: Research depth ────────────────────────────────
   {
     name: "Librarian Series",
+    slug: "librarian",
     category: "Personal Research · LLM From Scratch",
     accent: "violet",
     description:
@@ -102,7 +105,10 @@ export const projects = [
     github: "https://github.com/sujal-maheshwari2004",
     hf: [
       { label: "base-130m", url: "https://huggingface.co/MaheshwariSujal/librarian-base-130m" },
-      { label: "instruct-130m", url: "https://huggingface.co/MaheshwariSujal/Librarian-Instruct-130m" },
+      {
+        label: "instruct-130m",
+        url: "https://huggingface.co/MaheshwariSujal/Librarian-Instruct-130m",
+      },
     ],
     models: [
       { name: "librarian-base-130m", detail: "6.19 ppl · 92k steps", live: true },
@@ -126,6 +132,7 @@ export const projects = [
   // ── Tier 3: High technical depth, not deployed ────────────
   {
     name: "Mafia A2A",
+    slug: "mafia-a2a",
     category: "Multi-Agent · A2A Protocol",
     accent: "amber",
     description:
@@ -136,12 +143,14 @@ export const projects = [
   },
   {
     name: "Bot Street",
+    slug: "bot-street",
     category: "Simulation · HFT Environment",
     accent: "amber",
-    description: "Full algorithmic trading simulator on Apache Kafka (KRaft). Price-time priority order book, circuit breakers, sentiment engine, 15+ quant indicators (RSI, MACD, Bollinger, OFI, VaR, CVaR), and an MCP server so LLM agents can trade live against bots.",
+    description:
+      "Full algorithmic trading simulator on Apache Kafka (KRaft). Price-time priority order book, circuit breakers, sentiment engine, 15+ quant indicators (RSI, MACD, Bollinger, OFI, VaR, CVaR), and an MCP server so LLM agents can trade live against bots.",
     tags: ["Kafka", "FastAPI", "MCP", "Rich", "Docker"],
     github: "https://github.com/sujal-maheshwari2004",
-    live: "https://bot-street-terminal-957519594640.us-central1.run.app/",  // ← add this
+    live: "https://bot-street-terminal-957519594640.us-central1.run.app/", // ← add this
   },
   {
     name: "Coven",
@@ -175,6 +184,11 @@ export const projects = [
   },
 ];
 
+// Drop real LinkedIn recommendations here, e.g.
+//   { quote: "…", name: "Jane Doe", role: "Eng Manager, Acme" }
+// Left empty so nothing fabricated ever ships; the About section hides if empty.
+export const testimonials = [];
+
 export const stats = [
   { value: "96", unit: "%", label: "Latency cut", sub: "7 min → 30 sec" },
   { value: "86", unit: "%", label: "RAG accuracy", sub: "up from 62%" },
@@ -183,11 +197,29 @@ export const stats = [
 ];
 
 export const stack = {
-  "AI / LLM": ["LangChain", "LangGraph", "RAG", "Fine-tuning", "LoRA", "OpenAI API", "Whisper", "GPT-4o", "MCP", "FastMCP"],
-  "ML / Data": ["PyTorch", "Scikit-learn", "ChromaDB", "sentence-transformers", "pandas", "NetworkX"],
+  "AI / LLM": [
+    "LangChain",
+    "LangGraph",
+    "RAG",
+    "Fine-tuning",
+    "LoRA",
+    "OpenAI API",
+    "Whisper",
+    "GPT-4o",
+    "MCP",
+    "FastMCP",
+  ],
+  "ML / Data": [
+    "PyTorch",
+    "Scikit-learn",
+    "ChromaDB",
+    "sentence-transformers",
+    "pandas",
+    "NetworkX",
+  ],
   "Backend & Web": ["FastAPI", "Flask", "Node.js", "React", "REST APIs", "Kafka"],
   "Cloud & DevOps": ["Azure AI Foundry", "Azure VM", "Docker", "GitHub Actions", "Prometheus"],
-  "Databases": ["PostgreSQL", "MongoDB", "Redis", "ChromaDB"],
+  Databases: ["PostgreSQL", "MongoDB", "Redis", "ChromaDB"],
 };
 
 export const extra = [
@@ -203,6 +235,6 @@ export const links = {
   github: "https://github.com/sujal-maheshwari2004",
   linkedin: "https://linkedin.com/in/sujal-maheshwari",
   email: "mailto:sujalmaheshwari07@gmail.com",
-  resume: "https://drive.google.com/file/d/1klFipYaA3P3XCyKrK61qYzWz9nH9m0vh/view?usp=drive_link",
+  resume: "https://drive.google.com/file/d/10RppnxB6hD42rfWfY2UaftwrW6UB-Fq4/view?usp=drive_link",
   huggingface: "https://huggingface.co/MaheshwariSujal",
 };

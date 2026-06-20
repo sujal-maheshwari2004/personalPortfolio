@@ -1,0 +1,52 @@
+---
+title: DriftGuard
+summary: A semantic mistake-memory for AI agents — it remembers what went wrong and warns before the agent repeats it.
+role: Creator
+year: 2025
+stack: [Python, FastMCP, NetworkX, sentence-transformers, spaCy]
+status: Live · PyPI
+---
+
+import Pipeline from "@/components/mdx/Pipeline";
+
+## The problem
+
+Agents are amnesiac. They make a mistake, get corrected, and then — three runs later — make
+the *same* mistake again, because nothing carries the lesson forward. Logs aren't memory;
+they're a graveyard you have to dig through manually.
+
+## The approach
+
+DriftGuard stores **causal chains** — `action → feedback → outcome` — in a knowledge graph,
+and checks new actions against past failures using **semantic similarity**, not exact string
+matching. So "delete the prod table" matches a past "dropped the production database"
+warning even though the words differ.
+
+<Pipeline steps={["Action", "Embed", "Graph match", "Warn", "Record outcome"]} caption="The guard loop around every agent action" />
+
+It ships with two interfaces from one core: an **MCP server** (any MCP client gets memory
+for free) and an **in-process guard API** for LangGraph.
+
+```python
+guard = DriftGuard()
+
+# before acting, ask if this looks like a past mistake
+risk = guard.check(action="drop the users table to reset state")
+if risk.similar_failures:
+    print(risk.warning)   # "You did this on 2025-08-01 — it wiped staging data."
+
+# after acting, record what happened so future runs learn
+guard.record(action=..., feedback=..., outcome="failure")
+```
+
+## Why a graph
+
+A flat vector store finds *similar* actions, but a graph captures *consequence* — which
+action led to which outcome under which feedback. Traversing the graph lets DriftGuard
+surface not just "this looks risky" but "here's the chain of what happened last time."
+
+## Impact
+
+Packaged and published to PyPI as `driftguard-ai` with full docs. The dual MCP + in-process
+design means it drops into an existing agent stack without a rewrite — memory as a
+middleware, not a framework.

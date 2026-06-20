@@ -1,0 +1,45 @@
+---
+title: Bot Street
+summary: A full algorithmic-trading simulator on Kafka — price-time-priority order book, circuit breakers, 15+ quant indicators, and an MCP server so LLM agents can trade live against bots.
+role: Creator
+year: 2025
+stack: [Kafka, FastAPI, MCP, Rich, Docker]
+status: Live
+---
+
+import Pipeline from "@/components/mdx/Pipeline";
+
+## The problem
+
+I wanted a realistic venue to test trading agents — not a toy loop, but something with a
+real matching engine, market microstructure, and the failure modes (halts, thin books,
+sentiment shocks) that break naive strategies.
+
+## The build
+
+A complete exchange on **Apache Kafka (KRaft)**: a price-time-priority order book, circuit
+breakers, a sentiment engine, and 15+ quant indicators (RSI, MACD, Bollinger, OFI, VaR,
+CVaR).
+
+<Pipeline steps={["Orders", "Matching engine", "Market data", "Indicators", "Agents"]} caption="Event-driven flow over Kafka topics" />
+
+The unlock is an **MCP server** on top: LLM agents connect and trade *live* against the
+rule-based bots, through the same interface a human terminal uses.
+
+```python
+# an agent places an order through the MCP tool surface
+place_order(side="buy", symbol="ACME", qty=100, type="limit", price=42.10)
+book = get_order_book("ACME")          # price-time priority, live
+risk = portfolio_risk()                # VaR / CVaR, updated each tick
+```
+
+## Why Kafka
+
+Matching, market-data fan-out, and indicator computation are naturally event-driven. Kafka
+topics give durable, replayable streams — so a run is reproducible and every component
+scales independently of the others.
+
+## Impact
+
+Deployed and runnable as a live terminal. It turns "is this agent any good at trading?" into
+an experiment you can actually run, against a venue that behaves like a real one.

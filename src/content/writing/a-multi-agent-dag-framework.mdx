@@ -1,0 +1,64 @@
+---
+title: A multi-agent framework where the graph builds itself
+date: 2026-05-22
+summary: Coven takes a task in plain English, decomposes it into specialized agents, infers the dependency graph from how they share artifacts, runs each level in parallel, and compiles one coherent result — wiring real tools per node along the way.
+tags: [Agents, DAG, Orchestration]
+---
+
+Most multi-agent setups make *you* draw the graph: which agent feeds which. **Coven** infers it.
+You hand it a task in English; it figures out the agents, the dependencies, and the order.
+
+```python
+coven = Coven(model="gpt-4o")
+dag = await coven.run("Produce a go-to-market strategy for a B2B SaaS product")
+print(coven.to_text(dag))
+```
+
+## Five stages, each its own agent
+
+```
+Decomposer → Graph Builder → Sorter → Executor → Compiler
+```
+
+1. **Decomposer** breaks the task into focused agent nodes and the artifacts they read/write.
+2. **Graph Builder** validates the wiring, formalizes edges, and flags artifacts that need merging.
+3. **Sorter** does a pure topological sort into parallel execution levels (networkx, no LLM).
+4. **Executor** runs each level concurrently.
+5. **Compiler** assembles every artifact into one titled, sectioned result.
+
+## Artifacts are the edges
+
+There's no explicit edge list to maintain. An artifact declares its **contributors** (agents that
+write it) and **users** (agents that read it) — and that *is* the graph. The decomposer reasons
+about data flow ("market analysis" feeds "strategy"), and the structure falls out of it.
+
+When two agents contribute to the same artifact, Coven auto-injects a **Synthesizer** node between
+them and the downstream consumers — it merges the partial outputs, resolves conflicts, and attaches
+QC notes, without the decomposer ever needing to know that will happen.
+
+## Parallelism is free once you have levels
+
+Each topological level is a set of nodes with no dependency on each other, so they run together:
+
+```python
+tasks = [self._runner.run(node=dag.nodes[nid], store=store, nodes=dag.nodes)
+         for nid in level]
+updated = await asyncio.gather(*tasks)
+```
+
+Ten agents across three dependency levels make three sequential round trips, not ten. Structured
+outputs come back as validated Pydantic objects via `instructor` + LiteLLM, so any provider works
+and a malformed response never silently corrupts the next stage.
+
+## Real tools, built per node
+
+When the decomposer decides an agent needs an external capability, it describes it in plain English.
+Before that agent runs, Coven calls [ToolStorePy](/writing/building-an-mcp-autobuilder) to build a
+dedicated MCP server for it — each node in its own isolated workspace and port, so parallel builds
+in the same level never collide. The agents don't simulate tool use; they get real ones.
+
+## Takeaway
+
+The win isn't "many agents" — it's letting the dependency graph emerge from how work actually flows,
+then getting parallelism, conflict resolution, and tooling as consequences of that structure rather
+than things you hand-wire.

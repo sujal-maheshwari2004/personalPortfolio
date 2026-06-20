@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#f4f1e9" />
+  <!-- faint ruled baseline grid -->
+  <g stroke="#1b1a16" stroke-opacity="0.06">
+    <line x1="0" y1="105" x2="1200" y2="105" /><line x1="0" y1="158" x2="1200" y2="158" />
+    <line x1="0" y1="211" x2="1200" y2="211" /><line x1="0" y1="264" x2="1200" y2="264" />
+    <line x1="0" y1="317" x2="1200" y2="317" /><line x1="0" y1="370" x2="1200" y2="370" />
+    <line x1="0" y1="423" x2="1200" y2="423" /><line x1="0" y1="476" x2="1200" y2="476" />
+    <line x1="0" y1="529" x2="1200" y2="529" />
+  </g>
+  <!-- frame -->
+  <rect x="48" y="48" width="1104" height="534" fill="none" stroke="#1b1a16" stroke-opacity="0.16" />
+  <!-- top meta row -->
+  <text x="80" y="108" font-family="'DM Mono', monospace" font-size="20" letter-spacing="3"
+        fill="#d83a1a">SM/</text>
+  <text x="1120" y="108" text-anchor="end" font-family="'DM Mono', monospace" font-size="20"
+        letter-spacing="3" fill="#6c6658">FULL-STACK AI DEVELOPER</text>
+  <!-- name -->
+  <text x="76" y="330" font-family="Instrument Serif, Georgia, serif" font-size="150"
+        fill="#1b1a16">Sujal</text>
+  <text x="76" y="470" font-family="Instrument Serif, Georgia, serif" font-style="italic"
+        font-size="150" fill="#1b1a16">Maheshwari<tspan fill="#d83a1a">.</tspan></text>
+  <!-- bottom line -->
+  <text x="80" y="552" font-family="'DM Mono', monospace" font-size="22" letter-spacing="1"
+        fill="#6c6658">LLM systems · agentic infrastructure · models from scratch</text>
+</svg>

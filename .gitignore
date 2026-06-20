@@ -10,7 +10,13 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+dev-dist
 *.local
+
+# test / CI artifacts
+playwright-report
+test-results
+.lighthouseci
 
 # Editor directories and files
 .vscode/*

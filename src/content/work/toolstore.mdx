@@ -1,0 +1,46 @@
+---
+title: ToolStore
+summary: One plain-English sentence in, one runnable MCP server out — via retrieval, reranking, an AST security scan, and codegen.
+role: Creator
+year: 2025
+stack: [Python, ChromaDB, sentence-transformers, AST]
+status: Live · PyPI
+---
+
+import Pipeline from "@/components/mdx/Pipeline";
+
+## The problem
+
+LLM agents are only as capable as their tools, and hand-wiring an MCP server for every new
+capability is slow, repetitive work. I wanted to collapse "I need a tool that does X" into a
+single runnable server — safely.
+
+## The approach
+
+<Pipeline steps={["Describe", "Retrieve", "Rerank", "Clone + AST scan", "Generate"]} caption="Plain English to a runnable MCP server" />
+
+The interesting parts are the two-stage retrieval and the safety gate:
+
+```python
+shortlist = vector_store.search(query, k=25)    # cheap bi-encoder recall
+ranked = cross_encoder.rank(query, shortlist)   # precise cross-encoder sort
+candidate = ranked[0]
+
+if ast_scan(candidate.repo).is_safe:            # static check before trust
+    emit_mcp_server(candidate)
+```
+
+A bi-encoder embeds query and document separately — fast, but blunt. A **cross-encoder**
+reads them together and catches relevance a cosine score misses. Retrieval gets a cheap
+shortlist; the cross-encoder sorts it for precision.
+
+## The part people skip
+
+Cloning arbitrary repos and running them is how you get owned. ToolStore runs an **AST
+security scan** over the parsed syntax tree to flag dangerous calls *before* anything
+executes — static analysis, no sandbox escape to worry about.
+
+## Impact
+
+100% build accuracy across **32,767 evaluated subsets**. Published to PyPI as `toolstorepy`
+with docs, and used as the per-node tool builder inside my multi-agent framework, Coven.

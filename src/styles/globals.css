@@ -1,0 +1,305 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Class-based dark mode (overrides prefers-color-scheme via ThemeProvider) */
+@custom-variant dark (&:is(.dark *));
+
+/* ──────────────────────────────────────────────────────────────
+   "Technical Editorial" — warm paper / true ink, one vermilion
+   spot color, serif + sans + mono. Print-magazine-meets-terminal.
+   ────────────────────────────────────────────────────────────── */
+:root {
+  /* paper */
+  --background: #f4f1e9;
+  --foreground: #1b1a16;
+
+  --card: #faf8f1;
+  --card-foreground: #1b1a16;
+  --popover: #faf8f1;
+  --popover-foreground: #1b1a16;
+
+  /* primary = solid ink (inverted buttons) */
+  --primary: #1b1a16;
+  --primary-foreground: #f4f1e9;
+
+  --secondary: #ece8dd;
+  --secondary-foreground: #1b1a16;
+
+  --muted: #ece8dd;
+  --muted-foreground: #6c6658;
+
+  --accent: #e9e4d8; /* subtle hover surface for menus */
+  --accent-foreground: #1b1a16;
+
+  --destructive: #c0392b;
+  --destructive-foreground: #faf8f1;
+
+  --border: rgba(27, 26, 22, 0.14);
+  --input: rgba(27, 26, 22, 0.18);
+  --ring: #d83a1a;
+
+  --subtle: #9a9384;
+
+  /* the single spot color */
+  --spot: #d83a1a;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* ink */
+  --background: #0c0b08;
+  --foreground: #ece7db;
+
+  --card: #15130d;
+  --card-foreground: #ece7db;
+  --popover: #15130d;
+  --popover-foreground: #ece7db;
+
+  --primary: #ece7db; /* paper-on-ink inverted buttons */
+  --primary-foreground: #0c0b08;
+
+  --secondary: #121009;
+  --secondary-foreground: #ece7db;
+
+  --muted: #121009;
+  --muted-foreground: #9b9183;
+
+  --accent: rgba(236, 231, 219, 0.07);
+  --accent-foreground: #ece7db;
+
+  --destructive: #e5564a;
+  --destructive-foreground: #0c0b08;
+
+  --border: rgba(236, 231, 219, 0.15);
+  --input: rgba(236, 231, 219, 0.2);
+  --ring: #ff5630;
+
+  --subtle: #6f685b;
+
+  --spot: #ff5630;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-subtle: var(--subtle);
+  --color-spot: var(--spot);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  --font-sans: "Figtree Variable", "Figtree", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Utilities
+   ────────────────────────────────────────────────────────────── */
+
+/* faint horizontal ruled lines, masked at edges (notebook/ledger) */
+@utility bg-rules {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--foreground) 7%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 100% 2.4rem;
+}
+
+/* film grain overlay */
+@utility bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--spot) 28%, transparent);
+    color: var(--foreground);
+  }
+  /* Keyboard focus only — refined ring across links/buttons/interactive */
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--spot) 70%, transparent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+}
+
+/* Instrument Serif renders best with a touch more line-height control */
+.font-serif,
+.font-display {
+  font-feature-settings:
+    "liga" 1,
+    "dlig" 1;
+}
+
+/* Inline code (block code is handled by Shiki, scoped out here) */
+.prose-body :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.35em;
+  color: var(--foreground);
+}
+.prose-body pre code {
+  background: transparent;
+  font-family: var(--font-mono);
+}
+
+/* ── Lenis smooth scroll ── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Animations ── */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+.marquee-track {
+  animation: marquee-scroll var(--duration, 40s) linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes spot-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(3%, 4%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ── View Transitions: circular reveal on theme switch ── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+@keyframes vt-circle-reveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+}
+::view-transition-new(root) {
+  animation: vt-circle-reveal 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* ── Print: clean ink-on-paper, no chrome, everything expanded ── */
+@media print {
+  :root,
+  .dark {
+    --background: #ffffff;
+    --foreground: #111111;
+    --card: #ffffff;
+    --muted-foreground: #333333;
+    --subtle: #555555;
+    --border: rgba(0, 0, 0, 0.25);
+    --spot: #b3300f;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  section {
+    min-height: 0 !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+    break-inside: avoid;
+  }
+  .bg-secondary {
+    background: #fff !important;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9px;
+    color: #777;
+  }
+  a[href^="#"]::after,
+  a[href^="mailto"]::after {
+    content: "";
+  }
+}

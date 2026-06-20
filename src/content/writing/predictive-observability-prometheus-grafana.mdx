@@ -1,0 +1,61 @@
+---
+title: Predictive observability — drift-triggered retraining between Prometheus and Grafana
+date: 2026-04-18
+summary: Sentinel scrapes your metrics, trains a lightweight time-series model per metric, and emits forecasts back as standard Prometheus metrics — so Grafana plots real and predicted side by side, with zero changes to either. The interesting part is what happens when a model goes stale.
+tags: [MLOps, Time-Series, Observability]
+---
+
+Most "predictive monitoring" wants you to adopt a new platform. **Sentinel** doesn't: it sits
+transparently between the tools you already run.
+
+```
+Prometheus → Sentinel → /metrics → Grafana
+```
+
+It scrapes Prometheus, trains a small model per watched metric, and exposes the forecasts on its
+own `/metrics` endpoint in standard exposition format. Grafana scrapes *that* the same way it
+scrapes Prometheus — add it as a second datasource and the predicted line lands on the same panel
+as the real one. No plugins, no code changes on either side.
+
+## Three parts
+
+- **Ingestor** — pulls each metric on an interval into a sliding-window buffer. Once the buffer fills the lookback window, cold-start training fires automatically.
+- **Pipeline** — one model per metric. After cold start it watches prediction drift and retrains when needed. Every model is versioned, persisted, and rollback-able.
+- **Emitter** — serves `{metric}_sentinel_predicted` gauges, each labelled with its horizon, the model version that produced it, and the step index.
+
+Models are interchangeable behind one interface (`fit`, `partial_fit`, `predict`, `save`,
+`load`): linear trend, Holt's exponential smoothing, an ARIMA implemented with no external
+dependencies, and an SGD regressor that's the most finetune-friendly of the pack.
+
+## The interesting part: drift
+
+A forecast is only useful while the world still looks like its training data. Sentinel keeps a
+rolling window of `|predicted − actual|` per metric and classifies the mean against two thresholds:
+
+```python
+if mae >= self.retrain_threshold:
+    severity = DriftSeverity.HIGH    # full retrain from scratch
+elif mae >= self.finetune_threshold:
+    severity = DriftSeverity.LOW     # cheap partial_fit on recent data
+else:
+    severity = DriftSeverity.NONE    # keep serving the current model
+```
+
+Low drift triggers a `partial_fit`; high drift a full retrain; a cron schedule retrains anyway so
+even stable metrics stay fresh. Crucially, **training runs on a background thread** — predictions
+keep serving the old model until the new one is validated and atomically swapped in. The emitter
+closes the loop: when a predicted timestamp passes, it fetches the actual value and feeds the
+residual back to the drift monitor.
+
+## Why versioning matters here
+
+Every trained model is written to disk with its metadata, so a restart restores the last active
+model instead of cold-starting from zero. And because each version is retained (up to a cap), a
+bad retrain is one `rollback()` away from the previous good one — the same instinct you'd want from
+any deploy, applied to models.
+
+## Takeaway
+
+The forecasting is the easy half. The half that makes it *observability* infrastructure is the
+operational scaffolding around it: serve through retraining, detect your own staleness, and keep
+a way back when a model goes wrong.
